@@ -39,7 +39,7 @@ export function AboutPage() {
             You can preview your font at the bottom of the screen.
         </p>
         <p>
-            This app use <a href='https://github.com/opentypejs/opentype.js'>opentype.js</a>. The source can be found <a href="">here</a>.
+            This app use <a href='https://github.com/opentypejs/opentype.js'>opentype.js</a>. The source can be found <a href="https://github.com/grifdail/font-tool">here</a>.
         </p>
     </StyledAboutPage>
 }
