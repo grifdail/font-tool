@@ -86,6 +86,6 @@ export const Editor = {
         const f = useFontProject.getState();
         const op = exportFont(f);
 
-        saveAs(new Blob([op.toArrayBuffer()], { type: "font/otf" }), "font.otf")
+        saveAs(new Blob([op.toArrayBuffer()], { type: "font/otf" }), `${f.name}.otf`)
     }
 }

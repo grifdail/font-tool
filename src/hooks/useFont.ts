@@ -12,10 +12,12 @@ export type GlyphData = {
 export type FontProject = {
     glyph: Record<string, GlyphData>,
     name: string,
-    weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900,
+    //weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900,
     ascender: number,
     descender: number,
-    xHeight: number
+    xHeight: number,
+    strokeWeight: number,
+    author?: string
 }
 
 export const useFontProject = create<FontProject>()(persist(() => {

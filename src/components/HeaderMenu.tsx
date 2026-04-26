@@ -1,8 +1,9 @@
 ﻿import { Menu, MenuItem } from "@szhsin/react-menu";
-import { IconChevonLeft, IconMenu, IconPreview, IconDownload, IconInfo, IconChevonRight, IconDraw, IconErase, IconReset } from "./Icon";
+import { IconChevonLeft, IconMenu, IconDownload, IconInfo, IconChevonRight, IconDraw, IconErase, IconReset, IconSetting } from "./Icon";
 import styled from "styled-components";
 import { Editor, useEditor } from "../hooks/useEditor";
 import { useFontProject } from "../hooks/useFont";
+import { navigate } from "wouter/use-browser-location";
 
 const Header = styled.header`
     display: flex;
@@ -35,10 +36,10 @@ export function HeaderMenu() {
         </Menu>
 
         <Menu menuButton={<button><IconMenu></IconMenu></button>}>
-            <MenuItem onClick={() => Editor.resetFont()}><IconReset /> Reset</MenuItem>
-            <MenuItem><IconPreview></IconPreview> Preview</MenuItem>
+            <MenuItem onClick={() => navigate("/settings")}><IconSetting></IconSetting> Font Settings</MenuItem>
             <MenuItem onClick={() => Editor.exportAndDownload()}><IconDownload></IconDownload> Download</MenuItem>
-            <MenuItem><IconInfo></IconInfo> About</MenuItem>
+            <MenuItem onClick={() => navigate("/")}><IconInfo></IconInfo> About</MenuItem>
+            <MenuItem onClick={() => Editor.resetFont()}><IconReset /> New Font</MenuItem>
         </Menu>
         <button onClick={Editor.moveNext}><IconChevonRight></IconChevonRight></button>
     </Header>;

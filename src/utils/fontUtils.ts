@@ -29,7 +29,7 @@ export function exportFont(font: FontProject) {
     });
 
     const glyphs = Object.entries(font.glyph).map(([char, glyphData]) => {
-        const aPath = convertLineToPath(glyphData.lines, glyphData.start || 0)
+        const aPath = convertLineToPath(glyphData.lines, glyphData.start || 0, font.strokeWeight || 50)
 
 
         // more drawing instructions...
@@ -45,6 +45,7 @@ export function exportFont(font: FontProject) {
     return new Font({
         familyName: font.name,
         styleName: 'Medium',
+        "designer": font.author,
         unitsPerEm: 1000,
         ascender: font.ascender,
         descender: font.descender,
@@ -54,11 +55,12 @@ export function exportFont(font: FontProject) {
 
 }
 
-function convertLineToPath(lines: Line[], xOffset: number) {
+function convertLineToPath(lines: Line[], xOffset: number, weight: number) {
+    console.log(weight)
     const aPath = new opentype.Path()
     lines.forEach(line => {
         if (line.length >= 4) {
-            addLineOutline(aPath, line.map((p, i) => (i % 2) === 0 ? p - xOffset : p));
+            addLineOutline(aPath, line.map((p, i) => (i % 2) === 0 ? p - xOffset : p), weight);
 
         }
     })
@@ -77,6 +79,7 @@ export function updateGlyph(font: FontProject, glyphId: string, cb: (g: GlyphDat
 }
 
 function addLineOutline(aPath: opentype.Path, line: Line, weight: number = 50) {
+    console.log(weight)
     weight *= 0.5
     const points: [number, number, number][] = [];
     for (let i = 0; i < line.length; i += 2) {
@@ -99,9 +102,10 @@ export function createDefaultFont() {
     return addDefaultGlyph({
         glyph: {},
         name: "Font",
-        weight: 400,
+        //weight: 400,
         ascender: 800,
         descender: -300,
         xHeight: 500,
+        strokeWeight: 50
     })
 }

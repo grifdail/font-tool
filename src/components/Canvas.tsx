@@ -3,14 +3,12 @@ import { useFontProject, type GlyphData } from "../hooks/useFont";
 import { IconStart, IconWidth } from "./Icon";
 import { pointToSVGPath, useDrawing } from "./useDrawing";
 
-const STROKE_HEIGHT = 50;
-
 
 function GliphView({ glyph, onClickElement }: {
     glyph: GlyphData;
     onClickElement: (i: number) => void;
 }) {
-
+    const fontWeight = useFontProject(s => s.strokeWeight) || 50;
     return <g>
         {
             glyph.lines.map((l, i) => <path
@@ -24,7 +22,7 @@ function GliphView({ glyph, onClickElement }: {
                     e.stopPropagation();
                     onClickElement(i);
                 }}
-                strokeWidth={STROKE_HEIGHT} key={i}
+                strokeWidth={fontWeight} key={i}
                 d={pointToSVGPath(l)} />)
         }
 
@@ -87,7 +85,7 @@ export function Canvas() {
 
 
                 {
-                    editedLine ? <path strokeLinejoin="round" strokeLinecap="round" stroke="black" fill="none" strokeWidth={STROKE_HEIGHT} d={pointToSVGPath(editedLine)}></path> : null
+                    editedLine ? <path strokeLinejoin="round" strokeLinecap="round" stroke="black" fill="none" strokeWidth={font.strokeWeight} d={pointToSVGPath(editedLine)}></path> : null
                 }
 
             </g>
