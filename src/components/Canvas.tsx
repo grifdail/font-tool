@@ -4,6 +4,7 @@ import { useFontProject, type GlyphData } from "../hooks/useFont";
 import { IconStart, IconWidth } from "./Icon";
 import { pointToSVGPath, useDrawing } from "./useDrawing";
 import { useWindowSize } from "@uidotdev/usehooks";
+import type { MouseEvent } from "react";
 
 const ControlsDiv = styled.div`
     
@@ -43,7 +44,7 @@ const ControlsDiv = styled.div`
 
 function GliphView({ glyph, onClickElement }: {
     glyph: GlyphData;
-    onClickElement: (i: number) => void;
+    onClickElement: (i: number, e: MouseEvent) => void;
 }) {
     const fontWeight = useFontProject(s => s.strokeWeight) || 50;
     return <g>
@@ -55,9 +56,7 @@ function GliphView({ glyph, onClickElement }: {
                 fill="none"
                 onPointerUp={(e) => {
                     console.log(e);
-                    e.preventDefault();
-                    e.stopPropagation();
-                    onClickElement(i);
+                    onClickElement(i, e);
                 }}
                 strokeWidth={fontWeight} key={i}
                 d={pointToSVGPath(l)} />)

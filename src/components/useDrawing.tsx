@@ -1,4 +1,4 @@
-﻿import { useState, useRef, useCallback, type PointerEvent } from "react";
+﻿import { useState, useRef, useCallback, type PointerEvent, type MouseEvent } from "react";
 import * as simplify from "simplify-path";
 import { Editor, useEditor } from "../hooks/useEditor";
 import type { Line } from "../hooks/useFont";
@@ -44,9 +44,10 @@ export function useDrawing(viewbox: readonly [number, number, number, number]) {
 
     }, [editedLine, viewbox])
 
-    const onClickElement = useCallback((i: number) => {
+    const onClickElement = useCallback((i: number, e: MouseEvent) => {
         if (useEditor.getState().tool === "erase") {
-
+            e.stopPropagation();
+            e.preventDefault();
             Editor.removeLine(i);
         }
     }, []);
