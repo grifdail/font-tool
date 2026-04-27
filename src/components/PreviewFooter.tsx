@@ -25,13 +25,17 @@ const StyledFooter = styled.footer`
         }
 
         & input {
-            flex: 1 1 auto;
+            flex: 1 1 100px;
+            width: 10px;
         }
 
         & input[type="number"] {
+            flex: 0 0 30px;
+            border: none;
+            text-align: right;
+
             appearance: none;
             -moz-appearance: textfield;
-            we
 
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {

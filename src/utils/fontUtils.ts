@@ -56,7 +56,6 @@ export function exportFont(font: FontProject) {
 }
 
 function convertLineToPath(lines: Line[], xOffset: number, weight: number) {
-    console.log(weight)
     const aPath = new opentype.Path()
     lines.forEach(line => {
         if (line.length >= 4) {
@@ -79,7 +78,6 @@ export function updateGlyph(font: FontProject, glyphId: string, cb: (g: GlyphDat
 }
 
 function addLineOutline(aPath: opentype.Path, line: Line, weight: number = 50) {
-    console.log(weight)
     weight *= 0.5
     const points: [number, number, number][] = [];
     for (let i = 0; i < line.length; i += 2) {

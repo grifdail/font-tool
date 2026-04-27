@@ -3,6 +3,7 @@ import { Editor, useEditor } from "../hooks/useEditor";
 import { useFontProject, type GlyphData } from "../hooks/useFont";
 import { IconStart, IconWidth } from "./Icon";
 import { pointToSVGPath, useDrawing } from "./useDrawing";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 const ControlsDiv = styled.div`
     
@@ -85,7 +86,15 @@ export function Canvas() {
     const font = useFontProject();
     const emDim = 1000 - font.descender + (1000 - font.ascender)
     const viewbox = [-margin, -margin, 1000 + margin * 2, emDim + margin * 2] as const;
-    const canvasHeight = 400 * viewbox[3] / viewbox[2];
+    const { width: baseWidth, height: baseHeight } = useWindowSize();
+    let svgWidth = Math.min((baseWidth || 0) * 0.90, 400);
+
+    let canvasHeight = svgWidth * viewbox[3] / viewbox[2];
+    if (canvasHeight > (baseHeight || 700) * 0.6) {
+        const f = (baseHeight || 700) * 0.6 / canvasHeight
+        svgWidth *= f;
+        canvasHeight *= f;
+    }
     const editedCanvas = useEditor(e => e.editedPage);
     const glyph = (font.glyph[editedCanvas])
     const { canvasRef, onPointerDown, onPointerMove, onPointerUp, editedLine, onClickElement } = useDrawing(viewbox);
@@ -95,14 +104,16 @@ export function Canvas() {
         <svg
 
             ref={canvasRef}
-            width={400}
+            width={svgWidth}
             height={canvasHeight}
             viewBox={viewbox.join(" ")}
             onPointerDown={onPointerDown}
             onPointerMove={onPointerMove}
             onPointerUp={onPointerUp}
             style={{
-                border: "1px solid black", background: `repeating-conic-gradient(#80808030 0 25%, #0000 0 50%)    50% / ${BACKGROUND_GRID_SIZE}px ${BACKGROUND_GRID_SIZE}px`
+                touchAction: "none",
+                border: "1px solid black",
+                background: `repeating-conic-gradient(#80808030 0 25%, #0000 0 50%)    50% / ${BACKGROUND_GRID_SIZE}px ${BACKGROUND_GRID_SIZE}px`
             }}
         >
             <VLine y={0} name={"baseLine"} />
