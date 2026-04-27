@@ -1,8 +1,44 @@
-﻿import { Editor, useEditor } from "../hooks/useEditor";
+﻿import styled from "styled-components";
+import { Editor, useEditor } from "../hooks/useEditor";
 import { useFontProject, type GlyphData } from "../hooks/useFont";
 import { IconStart, IconWidth } from "./Icon";
 import { pointToSVGPath, useDrawing } from "./useDrawing";
 
+const ControlsDiv = styled.div`
+    
+    padding: 1rem;
+
+    display: grid;
+    grid-template-columns: max-content 1fr 80px;
+    gap: 0.1rem 1rem; 
+    padding: 0.3rem 1rem;
+
+    & > div {
+        display: grid;
+        grid-column-start : 1;
+        grid-column-end: 4;
+
+        grid-template-columns: subgrid;
+        & label {
+            grid-column: 1 / 2;
+            text-align: left;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+        }
+
+        & input:first-of-type {
+            grid-column: 2 / 3;
+        }
+        & input:last-of-type {
+            grid-column: 3 / 4;
+            text-align: right;
+            font-family: monospace;
+            border: none;
+        }
+        
+    }
+`
 
 function GliphView({ glyph, onClickElement }: {
     glyph: GlyphData;
@@ -90,15 +126,19 @@ export function Canvas() {
 
             </g>
         </svg>
-        <div>
+        <ControlsDiv>
             <div>
-                <IconStart></IconStart><input type='range' min={0} max={1000} value={glyph.start || 0} onChange={e => Editor.setGlyphSize(parseInt(e.target.value), glyph.width)} />
+                <label><IconStart></IconStart> Start</label>
+                <input type='range' min={0} max={1000} value={glyph.start || 0} onChange={e => Editor.setGlyphSize(parseInt(e.target.value), glyph.width)} />
+                <input type="number" min={0} max={1000} value={glyph.start} onChange={e => Editor.setGlyphSize(parseInt(e.target.value), glyph.width)} ></input>
             </div>
             <div>
-                <IconWidth></IconWidth><input type='range' min={0} max={1000} value={glyph.width || 650} onChange={e => Editor.setGlyphSize(glyph.start || 0, parseInt(e.target.value))} />
+                <label><IconWidth></IconWidth> Width</label>
+                <input type='range' min={0} max={1000} value={glyph.width || 650} onChange={e => Editor.setGlyphSize(glyph.start || 0, parseInt(e.target.value))} />
+                <input type="number" min={0} max={1000} value={glyph.width} onChange={e => Editor.setGlyphSize(glyph.start || 0, parseInt(e.target.value))} ></input>
             </div>
 
-        </div>
+        </ControlsDiv>
     </section>;
 }
 

@@ -5,15 +5,44 @@ import { DEFAULT_GLYPH_LIST, exportFont } from "../utils/fontUtils";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Menu, MenuItem } from "@szhsin/react-menu";
 import styled from "styled-components";
+import { IconFontSize } from "./Icon";
 
 
 const StyledFooter = styled.footer`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding: 1rem;
 
-    & > div {
+    & > div.controls {
         display: flex;
+        gap: 1rem;
+        margin-bottom: 0.3rem;
+
+        & label {
+            word-wrap: nowrap;
+            flex: 0 0 auto;
+        }
+
+        & input {
+            flex: 1 1 auto;
+        }
+
+        & input[type="number"] {
+            appearance: none;
+            -moz-appearance: textfield;
+            we
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+
+        & button {
+            flex: 0 0 auto;
+        }
     }
 
     & > textarea {
@@ -83,9 +112,11 @@ export function PreviewFooter() {
     const [fontSize, setFontSize] = useState(45);
     return <StyledFooter>
         <style >{style}</style>
-        <div>
+        <div className="controls">
+            <label><IconFontSize></IconFontSize> Size</label>
             <input type="range" min="5" max="200" value={fontSize} onChange={e => setFontSize(parseInt(e.target.value))}></input>
-            <Menu menuButton={<button>Set Text</button>}>
+            <input type="number" min="5" max="200" value={fontSize} onChange={e => setFontSize(parseInt(e.target.value))}></input>
+            <Menu menuButton={<button>Presets</button>}>
                 {
                     Object.entries(PREVIEW_TEXT).map(([name, content]) => <MenuItem onClick={() => setPreviewText(content)} key={name}>{name}</MenuItem>)
                 }
